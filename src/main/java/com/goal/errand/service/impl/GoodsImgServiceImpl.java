@@ -15,6 +15,6 @@ import org.springframework.stereotype.Service;
  * @since 2022-08-10
  */
 @Service
-public class GoodsImgServiceImpl extends ServiceImpl<GoodsImgMapper, GoodsImg> implements GoodsImgService {
+public class GoodsImgServiceImpl implements GoodsImgService {
 
 }

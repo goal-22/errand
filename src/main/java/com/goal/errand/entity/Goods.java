@@ -7,6 +7,8 @@ import com.baomidou.mybatisplus.annotation.Version;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableField;
 import java.io.Serializable;
+
+import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.experimental.Accessors;
@@ -30,12 +32,14 @@ public class Goods implements Serializable {
     /**
      * id
      */
+    @ApiModelProperty(value = "id",name = "id")
     @TableId(value = "id", type = IdType.AUTO)
     private Integer id;
 
     /**
      * 创建者
      */
+    @ApiModelProperty(value = "创建者",name = "id",required = true)
     @TableField("userId")
     private Integer userId;
 
