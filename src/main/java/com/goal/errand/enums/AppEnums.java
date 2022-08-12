@@ -1,10 +1,15 @@
 package com.goal.errand.enums;
 
+import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
+
 /**
  * @author ：Goal
  * @date ：Created in 2022/8/10 21:36
  * @description：常量定义
  */
+@Getter
 public enum  AppEnums {
 
     //  通用模块
