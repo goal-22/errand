@@ -32,6 +32,10 @@ public class User implements Serializable {
     private Integer id;
 
     /**
+     * openId 用户唯一标识
+     */
+    private String openId;
+    /**
      * 用户名
      */
     private String username;
