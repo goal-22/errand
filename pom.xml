@@ -18,6 +18,12 @@
     </properties>
     <dependencies>
 
+<!--        aop-->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-aop</artifactId>
+        </dependency>
+
         <!--    json数据格式依赖    -->
         <dependency>
             <groupId>com.alibaba</groupId>

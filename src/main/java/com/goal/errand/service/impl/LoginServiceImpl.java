@@ -53,10 +53,8 @@ public class LoginServiceImpl implements LoginService {
             }
             WeChatLoginVo weChatLoginVo = JSON.parseObject(content, WeChatLoginVo.class);
             resp = resultHandle.resultHandle(AppEnums.SUCCESS.getCode(), AppEnums.SUCCESS.getMsg(), weChatLoginVo);
-            //打印返回的信息
-            log.debug(content);
         } catch (Exception e) {
-            log.error(e.getMessage() + " : " + e.getStackTrace());
+            e.printStackTrace();
         }
         return resp;
     }

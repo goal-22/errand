@@ -49,6 +49,11 @@ public class Goods implements Serializable {
     private String name;
 
     /**
+     * 联系电话
+     */
+    private String phone;
+
+    /**
      * 商品详情
      */
     private String detail;
