@@ -7,4 +7,5 @@ package com.goal.errand.consts;
  */
 public class AppConsts {
     public static final String USER_OPEN_ID = "user_open_id:";
+    public static final String TOKEN = "_token:";
 }

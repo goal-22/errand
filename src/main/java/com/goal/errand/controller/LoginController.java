@@ -8,7 +8,7 @@ import com.goal.errand.vo.WeChatLoginVo;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpCookie;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -32,9 +32,8 @@ public class LoginController {
 
     @ApiOperation(value = "微信登录api", notes = "处理微信登录逻辑")
     @GetMapping("/wechat-login")
-    public RestResp<WeChatLoginVo> weChatLogin(@RequestParam("code") String code, HttpSession session) {
-        RestResp<WeChatLoginVo> resp = loginService.weChatLogin(code);
-        session.setAttribute(AppConsts.USER_OPEN_ID + uuid,resp.result.getOpenId());
+    public RestResp<String> weChatLogin(@RequestParam("code") String code, HttpSession session) {
+        RestResp<String> resp = loginService.weChatLogin(code);
         return resp;
     }
 

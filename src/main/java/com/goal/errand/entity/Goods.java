@@ -9,8 +9,10 @@ import com.baomidou.mybatisplus.annotation.TableField;
 import java.io.Serializable;
 
 import io.swagger.annotations.ApiModelProperty;
+import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
 import lombok.experimental.Accessors;
 
 /**
@@ -22,6 +24,8 @@ import lombok.experimental.Accessors;
  * @since 2022-08-10
  */
 @Data
+@NoArgsConstructor
+@AllArgsConstructor
 @EqualsAndHashCode(callSuper = false)
 @Accessors(chain = true)
 @TableName("t_goods")
@@ -39,9 +43,9 @@ public class Goods implements Serializable {
     /**
      * 创建者
      */
-    @ApiModelProperty(value = "创建者",name = "id",required = true)
+    @ApiModelProperty(value = "创建者",name = "openId",required = true)
     @TableField("userId")
-    private Integer userId;
+    private String userId;
 
     /**
      * 商品名称

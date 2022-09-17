@@ -3,10 +3,12 @@ package com.goal.errand.service.impl;
 import com.goal.errand.entity.Goods;
 import com.goal.errand.enums.AppEnums;
 import com.goal.errand.mapper.GoodsMapper;
+import com.goal.errand.req.GoodsReq;
 import com.goal.errand.resp.RestResp;
 import com.goal.errand.service.GoodsService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.goal.errand.utils.ResultHandle;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.system.ApplicationHome;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -26,6 +28,9 @@ import java.util.List;
  */
 @Service
 public class GoodsServiceImpl implements GoodsService {
+
+    @Autowired
+    private GoodsMapper goodsMapper;
 
     @Override
     public RestResp<List<String>> imagesUpload(MultipartFile[] images) {
@@ -84,5 +89,17 @@ public class GoodsServiceImpl implements GoodsService {
             return resultHandle.resultHandle(AppEnums.FILE_ERROR.getCode(), AppEnums.FILE_ERROR.getMsg(), null);
         }
         return new ResultHandle<String>().resultHandle(AppEnums.UPLOAD_SUCCESS.getCode(), AppEnums.UPLOAD_SUCCESS.getMsg(), imagePath);
+    }
+
+    @Override
+    public Integer goodsOrder(GoodsReq goods) {
+        Goods goods1 = new Goods(null, goods.getOpenId(), goods.getName(), goods.getPhone(), goods.getDesc(), null, goods.getPrice());
+        System.out.println(goods1);
+        return goodsMapper.insert(goods1);
+    }
+
+    @Override
+    public List<Goods> goodsList() {
+        return goodsMapper.selectList(null);
     }
 }

@@ -10,13 +10,9 @@ import com.goal.errand.utils.ResultHandle;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.system.ApplicationHome;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.io.File;
-import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -50,8 +46,18 @@ public class GoodsController {
     @ApiOperation(value = "商品下单接口")
     @PostMapping("/goods-order")
     public RestResp<String> goodsOrder(@RequestBody GoodsReq goods){
-        System.out.println(goods);
-        return null;
+        System.out.println(goodsService.goodsOrder(goods));
+        return new ResultHandle<String>().resultHandle(1001,"ok","OKK!");
+    }
+
+    @ApiOperation(value = "商品列表")
+    @GetMapping("/goods-list")
+    public RestResp<List<Goods>> goodsList(){
+        List<Goods> goods = goodsService.goodsList();
+        if (goods == null){
+            return new RestResp<List<Goods>>(AppEnums.FAIL.getCode(),AppEnums.FAIL.getMsg(),null);
+        }
+        return new RestResp<List<Goods>>(AppEnums.SUCCESS.getCode(),AppEnums.SUCCESS.getMsg(),goods);
     }
 
 }

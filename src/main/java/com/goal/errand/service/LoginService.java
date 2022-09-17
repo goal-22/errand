@@ -15,6 +15,6 @@ public interface LoginService {
      * @param code
      * @return
      */
-    public RestResp<WeChatLoginVo> weChatLogin(String code);
+    public RestResp<String> weChatLogin(String code);
 
 }
