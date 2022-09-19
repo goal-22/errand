@@ -27,7 +27,10 @@ public enum  AppEnums {
     //  文件模块
     UPLOAD_SUCCESS(3001,"上传成功"),
     UPLOAD_FAIL(3002,"上传失败"),
-    FILE_ERROR(3003,"上传文件有误")
+    FILE_ERROR(3003,"上传文件有误"),
+    //  下单模块
+    ORDER_SUCCESS(4001,"下单成功"),
+    ORDER_FAIL(4002,"下单失败"),
     ;
 
     private Integer code;

@@ -23,3 +23,5 @@ wechat:
   config:
     app-id: wx3c6dc112ed0fcdb3
     app-secret: 1ca1e3870364de3ad3c70a9e11d315a5
+
+prefix: http://localhost:8080/upload/

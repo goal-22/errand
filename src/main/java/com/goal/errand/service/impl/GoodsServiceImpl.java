@@ -1,14 +1,24 @@
 package com.goal.errand.service.impl;
 
+import com.alibaba.fastjson.JSON;
+import com.auth0.jwt.interfaces.DecodedJWT;
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.goal.errand.entity.Goods;
+import com.goal.errand.entity.GoodsImg;
 import com.goal.errand.enums.AppEnums;
+import com.goal.errand.mapper.GoodsImgMapper;
 import com.goal.errand.mapper.GoodsMapper;
 import com.goal.errand.req.GoodsReq;
+import com.goal.errand.req.ImagesReq;
 import com.goal.errand.resp.RestResp;
 import com.goal.errand.service.GoodsService;
-import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.goal.errand.utils.JWTUtil;
 import com.goal.errand.utils.ResultHandle;
+import com.goal.errand.vo.GoodsVo;
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.system.ApplicationHome;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -29,8 +39,15 @@ import java.util.List;
 @Service
 public class GoodsServiceImpl implements GoodsService {
 
+    private static Logger log = Logger.getLogger(GoodsServiceImpl.class);
+
+    @Value("${prefix}")
+    private String prefix;
+
     @Autowired
     private GoodsMapper goodsMapper;
+    @Autowired
+    private GoodsImgMapper imgMapper;
 
     @Override
     public RestResp<List<String>> imagesUpload(MultipartFile[] images) {
@@ -76,8 +93,10 @@ public class GoodsServiceImpl implements GoodsService {
             uploadDir.mkdirs();
         }
         String imagePath = null;
+        String result = null;
         if (!image.isEmpty()) {
             imagePath = uploadPath + "/" + image.getOriginalFilename();
+            result = prefix + image.getOriginalFilename();
             File imageFile = new File(imagePath);
             try {
                 image.transferTo(imageFile);
@@ -88,18 +107,43 @@ public class GoodsServiceImpl implements GoodsService {
             ResultHandle<String> resultHandle = new ResultHandle<>();
             return resultHandle.resultHandle(AppEnums.FILE_ERROR.getCode(), AppEnums.FILE_ERROR.getMsg(), null);
         }
-        return new ResultHandle<String>().resultHandle(AppEnums.UPLOAD_SUCCESS.getCode(), AppEnums.UPLOAD_SUCCESS.getMsg(), imagePath);
+        return new ResultHandle<String>().resultHandle(AppEnums.UPLOAD_SUCCESS.getCode(), AppEnums.UPLOAD_SUCCESS.getMsg(), result);
     }
 
     @Override
-    public Integer goodsOrder(GoodsReq goods) {
-        Goods goods1 = new Goods(null, goods.getOpenId(), goods.getName(), goods.getPhone(), goods.getDesc(), null, goods.getPrice());
-        System.out.println(goods1);
-        return goodsMapper.insert(goods1);
+    public Integer goodsOrder(String token ,GoodsReq goods) {
+        DecodedJWT verify = JWTUtil.verify(token);
+        String openId = verify.getClaim("openId").asString();
+        Goods goods1 = new Goods(null, openId, goods.getName(), goods.getPhone(), goods.getDesc(), null, goods.getPrice());
+        Integer result1 = goodsMapper.insert(goods1);
+        Integer result2 = null;
+        List<ImagesReq> imagesUrlList = JSON.parseArray(goods.getImagesUrl(), ImagesReq.class);
+        for (ImagesReq imagesReq : imagesUrlList) {
+            log.debug(imagesReq);
+            GoodsImg goodsImg = new GoodsImg();
+            goodsImg.setGoodsId(goods1.getId());
+            goodsImg.setPath(imagesReq.getUrl());
+            result2 = imgMapper.insert(goodsImg);
+            if (result2 == 0){
+                return 0;
+            }
+        }
+        return result1;
     }
 
     @Override
-    public List<Goods> goodsList() {
-        return goodsMapper.selectList(null);
+    public List<GoodsVo> goodsList(Integer page,Integer size) {
+        Page<Goods> goodsPage = new Page<>(page,size);
+        Page<Goods> goodsList = goodsMapper.selectPage(goodsPage, null);
+        ArrayList<GoodsVo> goodsVos = new ArrayList<>();
+        for (Goods goods : goodsList.getRecords()) {
+            GoodsImg img = imgMapper.findOneByGoodsId(goods.getId());
+            System.out.println(img);
+            GoodsVo goodsVo = new GoodsVo();
+            goodsVo.setGoods(goods);
+            goodsVo.setGoodsImg(img);
+            goodsVos.add(goodsVo);
+        }
+        return goodsVos;
     }
 }

@@ -1,11 +1,8 @@
 package com.goal.errand.entity;
 
-import com.baomidou.mybatisplus.annotation.TableName;
-import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.*;
+
 import java.util.Date;
-import com.baomidou.mybatisplus.annotation.Version;
-import com.baomidou.mybatisplus.annotation.TableId;
-import com.baomidou.mybatisplus.annotation.TableField;
 import java.io.Serializable;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -42,7 +39,7 @@ public class Order implements Serializable {
     /**
      * 创建时间
      */
-    @TableField("createTime")
+    @TableField(value = "createTime" ,fill = FieldFill.INSERT)
     private Date createTime;
 
     /**
@@ -54,7 +51,7 @@ public class Order implements Serializable {
     /**
      * 完成时间
      */
-    @TableField("finishTime")
+    @TableField(value = "finishTime")
     private Date finishTime;
 
     /**

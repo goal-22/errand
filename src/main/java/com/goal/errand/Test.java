@@ -45,6 +45,6 @@ public class Test {
 
     public static void main(String[] args) {
 //        String token = getToken();
-        decodeToken("eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJvcGVuSWQiOiJvb1BOTTVLUWZHVnlqS3NHN3phSTdzTXJuZ2V3Iiwic2Vzc2lvbklkIjoiNTBVZ215TTdCRHFid3FsSTZTNC91QT09IiwiZXhwIjoxNjYzNjY5NDE2fQ.r4aSQUQgVPBeq9smnUuCHfJDW1KxDKzGit31YQWNIuM");
+//        decodeToken("eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJvcGVuSWQiOiJvb1BOTTVLUWZHVnlqS3NHN3phSTdzTXJuZ2V3Iiwic2Vzc2lvbklkIjoiNTBVZ215TTdCRHFid3FsSTZTNC91QT09IiwiZXhwIjoxNjYzNjY5NDE2fQ.r4aSQUQgVPBeq9smnUuCHfJDW1KxDKzGit31YQWNIuM");
     }
 }

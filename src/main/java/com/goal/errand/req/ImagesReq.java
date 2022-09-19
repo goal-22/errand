@@ -4,6 +4,8 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.io.Serializable;
+
 /**
  * @author ：Goal
  * @date ：Created in 2022/8/16 17:52
@@ -12,6 +14,6 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class ImagesReq {
+public class ImagesReq implements Serializable {
     private String url;
 }

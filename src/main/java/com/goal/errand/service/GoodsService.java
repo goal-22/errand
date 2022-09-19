@@ -4,6 +4,7 @@ import com.goal.errand.entity.Goods;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.goal.errand.req.GoodsReq;
 import com.goal.errand.resp.RestResp;
+import com.goal.errand.vo.GoodsVo;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.multipart.MultipartFile;
@@ -38,15 +39,18 @@ public interface GoodsService {
 
     /**
      * 商品下单（新增物品）
+     * @param token
      * @param goods
      * @return
      */
-    public Integer goodsOrder(GoodsReq goods);
+    public Integer goodsOrder(String token,GoodsReq goods);
 
     /**
-     * 商品列表
+     * 商品分页列表
+     * @param page
+     * @param size
      * @return
      */
-    public List<Goods> goodsList();
+    public List<GoodsVo> goodsList(Integer page,Integer size);
 
 }

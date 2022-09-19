@@ -1,6 +1,7 @@
 package com.goal.errand.controller;
 
 import com.goal.errand.annotation.Auth;
+import com.goal.errand.resp.RestResp;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -19,8 +20,8 @@ public class TestController {
     @ApiOperation(value = "test")
     @RequestMapping("/")
     @Auth
-    public String test(){
-        return "Test!!!";
+    public RestResp<String> test(){
+        return new RestResp<String>(1111,"3sdf",null);
     }
 
 }

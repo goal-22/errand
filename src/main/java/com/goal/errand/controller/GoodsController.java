@@ -1,18 +1,22 @@
 package com.goal.errand.controller;
 
 
+import com.goal.errand.annotation.Auth;
 import com.goal.errand.entity.Goods;
 import com.goal.errand.enums.AppEnums;
 import com.goal.errand.req.GoodsReq;
 import com.goal.errand.resp.RestResp;
 import com.goal.errand.service.GoodsService;
 import com.goal.errand.utils.ResultHandle;
+import com.goal.errand.vo.GoodsVo;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
 /**
@@ -45,19 +49,23 @@ public class GoodsController {
 
     @ApiOperation(value = "商品下单接口")
     @PostMapping("/goods-order")
-    public RestResp<String> goodsOrder(@RequestBody GoodsReq goods){
-        System.out.println(goodsService.goodsOrder(goods));
-        return new ResultHandle<String>().resultHandle(1001,"ok","OKK!");
+    @Transactional()
+    public RestResp<String> goodsOrder(@RequestBody GoodsReq goods, HttpServletRequest request){
+        String token = request.getHeader("token");
+        if (goodsService.goodsOrder(token,goods) == 0){
+            return new ResultHandle<String>().resultHandle(AppEnums.ORDER_FAIL.getCode(),AppEnums.ORDER_FAIL.getMsg(),null);
+        }
+        return new ResultHandle<String>().resultHandle(AppEnums.ORDER_SUCCESS.getCode(),AppEnums.ORDER_SUCCESS.getMsg(),null);
     }
 
     @ApiOperation(value = "商品列表")
     @GetMapping("/goods-list")
-    public RestResp<List<Goods>> goodsList(){
-        List<Goods> goods = goodsService.goodsList();
+    public RestResp<List<GoodsVo>> goodsList(Integer page ,Integer size){
+        List<GoodsVo> goods = goodsService.goodsList(page,size);
         if (goods == null){
-            return new RestResp<List<Goods>>(AppEnums.FAIL.getCode(),AppEnums.FAIL.getMsg(),null);
+            return new RestResp<List<GoodsVo>>(AppEnums.FAIL.getCode(),AppEnums.FAIL.getMsg(),null);
         }
-        return new RestResp<List<Goods>>(AppEnums.SUCCESS.getCode(),AppEnums.SUCCESS.getMsg(),goods);
+        return new RestResp<List<GoodsVo>>(AppEnums.SUCCESS.getCode(),AppEnums.SUCCESS.getMsg(),goods);
     }
 
 }
