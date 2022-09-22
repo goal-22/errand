@@ -60,6 +60,11 @@ public class Goods implements Serializable {
     private String detail;
 
     /**
+     * 商品类型
+     */
+    private Integer type;
+
+    /**
      * 创建时间
      */
     @TableField(value = "createTime",fill = FieldFill.INSERT)

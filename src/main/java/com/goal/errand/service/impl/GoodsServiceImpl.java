@@ -114,7 +114,7 @@ public class GoodsServiceImpl implements GoodsService {
     public Integer goodsOrder(String token ,GoodsReq goods) {
         DecodedJWT verify = JWTUtil.verify(token);
         String openId = verify.getClaim("openId").asString();
-        Goods goods1 = new Goods(null, openId, goods.getName(), goods.getPhone(), goods.getDesc(), null, goods.getPrice());
+        Goods goods1 = new Goods(null, openId, goods.getName(), goods.getPhone(), goods.getDesc(),goods.getType(), null, goods.getPrice());
         Integer result1 = goodsMapper.insert(goods1);
         Integer result2 = null;
         List<ImagesReq> imagesUrlList = JSON.parseArray(goods.getImagesUrl(), ImagesReq.class);
